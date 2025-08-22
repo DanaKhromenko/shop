@@ -18,8 +18,6 @@ import org.springframework.stereotype.Repository;
  * @author Dana Khromenko
  * @version 1.0
  * @since 2025
- * @see JpaRepository
- * @see Product
  */
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {

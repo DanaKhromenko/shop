@@ -1,7 +1,6 @@
 package com.gmail.danadiadius.service;
 
 import com.gmail.danadiadius.model.Product;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
@@ -17,8 +16,6 @@ import java.util.List;
  * @author Dana Khromenko
  * @version 1.0
  * @since 2025
- * @see JpaRepository
- * @see Product
  */
 public interface ProductService {
 

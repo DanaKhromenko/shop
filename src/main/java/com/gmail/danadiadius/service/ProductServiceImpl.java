@@ -2,7 +2,6 @@ package com.gmail.danadiadius.service;
 
 import com.gmail.danadiadius.model.Product;
 import com.gmail.danadiadius.repository.ProductRepository;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,12 +13,12 @@ import java.util.List;
  * <p>This service handles CRUD operations for products and additionally
  * publishes events to a Kafka topic whenever a new product is created,
  * enabling event-driven architecture and microservices communication.
+
+ * @see Product
  *
  * @author Dana Khromenko
  * @version 1.0
  * @since 2025
- * @see JpaRepository
- * @see Product
  */
 @Service
 public class ProductServiceImpl implements ProductService{
