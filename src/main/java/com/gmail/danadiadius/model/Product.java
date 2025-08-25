@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * This class maps to the "products" table in the database and encapsulates
  * the core attributes of a sellable item in the shop.
  *
- * The entity includes validation constraints to ensure data integrity:
+ * <p>The entity includes validation constraints to ensure data integrity:
  * - Product name must not be blank
  * - Price must be specified and cannot be null
  *

@@ -1,8 +1,9 @@
 package com.gmail.danadiadius.service;
 
+import com.gmail.danadiadius.event.ProductEvent;
 import com.gmail.danadiadius.model.Product;
 import com.gmail.danadiadius.repository.ProductRepository;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,26 +15,28 @@ import java.util.List;
  * <p>This service handles CRUD operations for products and additionally
  * publishes events to a Kafka topic whenever a new product is created,
  * enabling event-driven architecture and microservices communication.
+
+ * @see Product
  *
  * @author Dana Khromenko
  * @version 1.0
  * @since 2025
- * @see JpaRepository
- * @see Product
  */
 @Service
 public class ProductServiceImpl implements ProductService{
 
     private final ProductRepository productRepository;
+    private final KafkaTemplate<String, ProductEvent> kafkaTemplate;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, KafkaTemplate<String, ProductEvent> kafkaTemplate) {
         this.productRepository = productRepository;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
     public Product createProduct(Product product) {
         Product saved = productRepository.save(product);
-        // TODO: add publishing events to a Kafka topic
+        kafkaTemplate.send("products", new ProductEvent(saved.getId(), saved.getName()));
         return saved;
     }
 
