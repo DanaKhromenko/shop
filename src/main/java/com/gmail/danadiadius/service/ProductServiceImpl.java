@@ -1,7 +1,9 @@
 package com.gmail.danadiadius.service;
 
+import com.gmail.danadiadius.event.ProductEvent;
 import com.gmail.danadiadius.model.Product;
 import com.gmail.danadiadius.repository.ProductRepository;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,15 +26,17 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService{
 
     private final ProductRepository productRepository;
+    private final KafkaTemplate<String, ProductEvent> kafkaTemplate;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, KafkaTemplate<String, ProductEvent> kafkaTemplate) {
         this.productRepository = productRepository;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
     public Product createProduct(Product product) {
         Product saved = productRepository.save(product);
-        // TODO: add publishing events to a Kafka topic
+        kafkaTemplate.send("products", new ProductEvent(saved.getId(), saved.getName()));
         return saved;
     }
 
